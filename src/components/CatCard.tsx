@@ -24,7 +24,7 @@ const styles = {
 			'&:hover, &:focus': {
 				backgroundColor: theme.colors.primary,
 			},
-			'&:first-child:active': {
+			'&:first-of-type:active': {
 				backgroundColor: theme.colors.primary,
 				span: {
 					top: '-0.1rem',
