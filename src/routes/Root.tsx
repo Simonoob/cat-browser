@@ -1,4 +1,5 @@
 import { Theme, css } from '@emotion/react'
+import { Stack } from 'react-bootstrap'
 import { Outlet } from 'react-router-dom'
 
 const styles = {
@@ -12,9 +13,6 @@ const styles = {
 	content: (theme: Theme) =>
 		css({
 			margin: '0 auto',
-			display: 'flex',
-			flexDirection: 'column',
-			alignItems: 'center',
 			width: '100%',
 			maxWidth: '800px',
 			color: theme.colors.primary,
@@ -23,11 +21,14 @@ const styles = {
 
 const Root = () => {
 	return (
-		<div css={styles.root}>
+		<main css={styles.root}>
 			<div css={styles.content}>
-				<Outlet />
+				<Stack gap={5}>
+					<h1>Cat Browser</h1>
+					<Outlet />
+				</Stack>
 			</div>
-		</div>
+		</main>
 	)
 }
 
