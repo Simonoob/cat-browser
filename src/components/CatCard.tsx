@@ -2,10 +2,16 @@ import { Theme, css } from '@emotion/react'
 import { Button, Card } from 'react-bootstrap'
 
 const styles = {
-	root: {
-		width: '18rem',
+	root: css({
+		width: '15rem',
 		maxWidth: '100%',
-	},
+	}),
+	image: css({
+		width: '100%',
+		aspectRatio: '4 / 3',
+		objectFit: 'cover',
+		objectPosition: 'center',
+	}),
 	button: (theme: Theme) =>
 		css({
 			width: '100%',
@@ -33,13 +39,10 @@ const styles = {
 		}),
 }
 
-const CatCard = () => {
+const CatCard = ({ image }: { image: string }) => {
 	return (
 		<Card css={styles.root}>
-			<Card.Img
-				variant="top"
-				src="https://w0.peakpx.com/wallpaper/409/266/HD-wallpaper-anime-pokemon-pikachu-bulbasaur-pokemon-charmander-pokemon-squirtle-pokemon-snorlax-pokemon-thumbnail.jpg"
-			/>
+			<Card.Img variant="top" src={image} css={styles.image} />
 			<Card.Body>
 				<Button variant="primary" href="#" css={styles.button}>
 					<span>See details</span>

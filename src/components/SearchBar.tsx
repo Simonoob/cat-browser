@@ -1,9 +1,9 @@
 import { css } from '@emotion/react'
-import { QueryClient, useQuery } from '@tanstack/react-query'
-import axios from 'axios'
+import { useQuery } from '@tanstack/react-query'
 import { useSubmit } from 'react-router-dom'
 import { Form as BootstrapForm } from 'react-bootstrap'
 import { useLoaderData } from 'react-router-dom'
+import { breedsQuery, loader } from '../routes/pages/Index'
 
 const styles = {
 	root: css({
@@ -13,36 +13,15 @@ const styles = {
 	}),
 }
 
-const breedsQuery = {
-	queryKey: ['breeds'],
-	queryFn: async () => {
-		const data = await axios.get('https://api.thecatapi.com/v1/breeds')
-		return data.data
-	},
-}
-
-export const loader =
-	(queryClient: QueryClient) =>
-	async ({ request }: { request: Request }) => {
-		const url = new URL(request.url)
-		const selectedBreed = url.searchParams.get('breed')
-		if (!queryClient.getQueryData(breedsQuery.queryKey)) {
-			await queryClient.fetchQuery(
-				breedsQuery.queryKey,
-				breedsQuery.queryFn,
-			)
-		}
-		return { selectedBreed }
-	}
-
 const SearchBar = () => {
 	const { selectedBreed } = useLoaderData() as Awaited<
-		ReturnType<ReturnType<typeof loader>>
+		ReturnType<typeof loader>
 	>
 
-	const { data: breeds } = useQuery(breedsQuery.queryKey) as {
-		data: { id: string; name: string }[]
-	}
+	const { data: breeds, isLoading } = useQuery(
+		breedsQuery.queryKey,
+		breedsQuery.queryFn,
+	)
 
 	const submit = useSubmit()
 
@@ -51,19 +30,23 @@ const SearchBar = () => {
 
 	return (
 		<BootstrapForm css={styles.root} id="search-form" role="search">
-			<BootstrapForm.Group controlId="bootstrapformBasicEmail">
+			<BootstrapForm.Group>
 				<BootstrapForm.Label>Breed</BootstrapForm.Label>
 				<BootstrapForm.Select
 					id="breed"
 					name="breed"
 					defaultValue={selectedBreed ?? undefined}
 					onChange={handleBreedChange}
+					disabled={isLoading}
 				>
-					{breeds.map(breed => (
-						<option value={breed.id} key={breed.id}>
-							{breed.name}
-						</option>
-					))}
+					<option value="all">All breeds</option>
+					{!!breeds &&
+						!isLoading &&
+						breeds.map((breed: { id: string; name: string }) => (
+							<option value={breed.id} key={breed.id}>
+								{breed.name}
+							</option>
+						))}
 				</BootstrapForm.Select>
 			</BootstrapForm.Group>
 		</BootstrapForm>

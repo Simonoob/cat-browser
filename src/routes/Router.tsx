@@ -2,11 +2,8 @@ import { createBrowserRouter } from 'react-router-dom'
 import ErrorPage from './ErrorPage'
 import Index from './pages/Index'
 import Root from './Root'
-import {
-	loader as breedsLoader,
-	action as breedsAction,
-} from '../components/SearchBar'
 import queryClient from '../utils/ queryClient'
+import { loader as indexLoader } from './pages/Index'
 
 const router = createBrowserRouter([
 	{
@@ -17,7 +14,7 @@ const router = createBrowserRouter([
 			{
 				path: '/',
 				element: <Index />,
-				loader: breedsLoader(queryClient),
+				loader: indexLoader(queryClient),
 			},
 			{
 				path: '/:catId',
