@@ -4,15 +4,21 @@ import { Stack } from 'react-bootstrap'
 import SearchBar from '../../components/SearchBar'
 import ImagesGrid from '../../components/ImagesGrid'
 
-export const imagesQuery = (breed: string) => ({
+export const imagesQuery = (breed = 'all') => ({
 	queryKey: ['images', breed],
-	queryFn: async () => {
+	queryFn: async ({ pageParam = 0 }) => {
+		const apiKey = import.meta.env.VITE_CAT_API_KEY
 		const data = await axios.get(
 			'https://api.thecatapi.com/v1/images/search',
 			{
 				params: {
 					breed_id: breed === 'all' ? undefined : breed,
 					limit: 10,
+					page: pageParam,
+					order: 'ASC',
+				},
+				headers: {
+					'x-api-key': apiKey,
 				},
 			},
 		)
