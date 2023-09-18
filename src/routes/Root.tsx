@@ -14,7 +14,8 @@ const styles = {
 		css({
 			margin: '0 auto',
 			width: '100%',
-			maxWidth: '800px',
+			maxWidth: '1400px',
+			position: 'relative',
 			color: theme.colors.primary,
 		}),
 }
