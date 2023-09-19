@@ -4,19 +4,16 @@ import { Stack } from 'react-bootstrap'
 import SearchBar from '../../components/SearchBar'
 import ImagesGrid from '../../components/ImagesGrid'
 
-export const imagesQuery = (breed = 'all') => ({
+export const imagesQuery = (breed = 'none') => ({
 	queryKey: ['images', breed],
 	queryFn: async ({ pageParam = 0 }) => {
 		const apiKey = import.meta.env.VITE_CAT_API_KEY
 
-		// add a 80% chance of error
-		// if (Math.random() < 0.8) {
-		// 	throw new Error('Random error')
-		// }
+		if (breed === 'none') return { data: [] }
 
 		return await axios.get('https://api.thecatapi.com/v1/images/search', {
 			params: {
-				breed_id: breed === 'all' ? undefined : breed,
+				breed_id: breed,
 				limit: 10,
 				page: pageParam,
 				order: 'ASC',
@@ -37,7 +34,7 @@ export const loader =
 	(queryClient: QueryClient) =>
 	async ({ request }: { request: Request }) => {
 		const url = new URL(request.url)
-		const selectedBreed = url.searchParams.get('breed') || 'all'
+		const selectedBreed = url.searchParams.get('breed') ?? 'none'
 
 		const images =
 			queryClient.getQueryData(imagesQuery(selectedBreed).queryKey) ??

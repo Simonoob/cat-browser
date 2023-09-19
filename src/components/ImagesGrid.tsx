@@ -80,6 +80,16 @@ const ImagesGrid = () => {
 							<CatCard key={image.id} image={image} />
 						)),
 					)}
+
+				{selectedBreed === 'none' && (
+					<p
+						css={css({
+							textAlign: 'center',
+						})}
+					>
+						Please select a breed to see images
+					</p>
+				)}
 			</Container>
 
 			{isLoading && (

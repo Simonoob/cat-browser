@@ -64,7 +64,7 @@ const SearchBar = () => {
 						onChange={handleBreedChange}
 						disabled={searching || navigation.state === 'loading'}
 					>
-						<option value="all">All breeds</option>
+						<option value="none">None</option>
 						{!!breeds?.data &&
 							breeds.data.map(
 								(breed: { id: string; name: string }) => (
