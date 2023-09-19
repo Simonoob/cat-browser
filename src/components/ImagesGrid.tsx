@@ -1,10 +1,10 @@
 import { imagesQuery, loader } from '../routes/pages/Index'
 import { useLoaderData, useNavigation } from 'react-router-dom'
 import { useInfiniteQuery, useIsFetching } from '@tanstack/react-query'
-import { Button, Container, Spinner } from 'react-bootstrap'
+import { Alert, Button, Container, Spinner } from 'react-bootstrap'
 import CatCard from './CatCard'
 import { css } from '@emotion/react'
-
+import { useEffect, useState } from 'react'
 const styles = {
 	root: isLoading =>
 		css({
@@ -35,6 +35,14 @@ const styles = {
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: 'rgba(255, 255, 255, 0.5)',
+	}),
+	alert: css({
+		width: 'fit-content',
+		position: 'relative',
+		display: 'flex',
+		justifyContent: 'space-between',
+		gap: '2rem',
+		margin: '0 auto',
 	}),
 }
 
@@ -69,6 +77,12 @@ const ImagesGrid = () => {
 		}) > 0
 	const navigation = useNavigation()
 
+	const [alertOpen, setAlertOpen] = useState(false)
+
+	useEffect(() => {
+		setAlertOpen(isError)
+	}, [isError])
+
 	return (
 		<>
 			<Container
@@ -100,15 +114,18 @@ const ImagesGrid = () => {
 				/>
 			)}
 
-			{isError && (
-				<p
-					css={css({
-						textAlign: 'center',
-					})}
-				>
+			{alertOpen && (
+				<Alert variant="danger" css={styles.alert}>
 					Apologies but we could not load new cats for you at this
 					time! Miau!
-				</p>
+					<Button
+						variant="danger"
+						size="sm"
+						onClick={() => setAlertOpen(false)}
+					>
+						close
+					</Button>
+				</Alert>
 			)}
 
 			{hasNextPage && (

@@ -111,6 +111,7 @@ const CatId = () => {
 									).temperament
 								}
 							</p>
+							<hr />
 							<p>
 								{
 									data.breeds.find(
