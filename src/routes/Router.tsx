@@ -4,6 +4,8 @@ import Index from './pages/Index'
 import Root from './Root'
 import queryClient from '../utils/ queryClient'
 import { loader as indexLoader } from './pages/Index'
+import CatId from './pages/CatId'
+import { loader as catLoader } from './pages/CatId'
 
 const router = createBrowserRouter([
 	{
@@ -17,10 +19,9 @@ const router = createBrowserRouter([
 				loader: indexLoader(queryClient),
 			},
 			{
-				path: '/:catId',
-				element: <div>specific cat page</div>,
-				// loader: catLoader(queryClient),
-				// action: catAction(queryClient),
+				path: '/:breed/:catId',
+				element: <CatId />,
+				loader: catLoader(queryClient),
 			},
 		],
 	},
