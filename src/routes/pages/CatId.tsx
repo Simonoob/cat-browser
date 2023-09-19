@@ -4,7 +4,7 @@ import axios from 'axios'
 import { Button, Card, Stack } from 'react-bootstrap'
 import { useLoaderData, useNavigate } from 'react-router-dom'
 
-const catDetailQuery = (breedId: string, catId: string) => ({
+const catDetailsQuery = (breedId: string, catId: string) => ({
 	queryKey: [breedId, catId],
 	queryFn: async () => {
 		return (await axios.get(`https://api.thecatapi.com/v1/images/${catId}`))
@@ -21,8 +21,8 @@ export const loader =
 		const catId = url.pathname.split('/')[2]
 
 		const data = await queryClient.fetchQuery(
-			catDetailQuery(breedId, catId).queryKey,
-			catDetailQuery(breedId, catId).queryFn,
+			catDetailsQuery(breedId, catId).queryKey,
+			catDetailsQuery(breedId, catId).queryFn,
 		)
 
 		if (!data.breeds.find((breed: { id: string }) => breed.id === breedId))
@@ -59,11 +59,11 @@ const styles = {
 
 const CatId = () => {
 	const { catId, breedId } = useLoaderData() as Awaited<
-		ReturnType<typeof loader>
+		ReturnType<ReturnType<typeof loader>>
 	>
 	const { data } = useQuery(
-		catDetailQuery(breedId, catId).queryKey,
-		catDetailQuery(breedId, catId).queryFn,
+		catDetailsQuery(breedId, catId).queryKey,
+		catDetailsQuery(breedId, catId).queryFn,
 	)
 	const navigate = useNavigate()
 

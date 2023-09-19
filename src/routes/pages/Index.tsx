@@ -14,7 +14,7 @@ export const imagesQuery = (breed = 'none') => ({
 		return await axios.get('https://api.thecatapi.com/v1/images/search', {
 			params: {
 				breed_id: breed,
-				limit: 10,
+				limit: 4,
 				page: pageParam,
 				order: 'ASC',
 			},

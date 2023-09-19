@@ -10,14 +10,12 @@ const styles = {
 			minHeight: '100vh',
 			backgroundColor: theme.colors.background,
 		}),
-	content: (theme: Theme) =>
-		css({
-			margin: '0 auto',
-			width: '100%',
-			maxWidth: '1400px',
-			position: 'relative',
-			color: theme.colors.primary,
-		}),
+	content: css({
+		margin: '0 auto',
+		width: '100%',
+		maxWidth: '1400px',
+		position: 'relative',
+	}),
 }
 
 const Root = () => {

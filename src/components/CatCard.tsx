@@ -27,7 +27,7 @@ const CatCard = ({
 	}
 }) => {
 	const { selectedBreed } = useLoaderData() as Awaited<
-		ReturnType<typeof loader>
+		ReturnType<ReturnType<typeof loader>>
 	>
 
 	const navigate = useNavigate()

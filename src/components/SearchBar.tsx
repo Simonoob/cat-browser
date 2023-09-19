@@ -24,7 +24,7 @@ const styles = {
 
 const SearchBar = () => {
 	const { selectedBreed } = useLoaderData() as Awaited<
-		ReturnType<typeof loader>
+		ReturnType<ReturnType<typeof loader>>
 	>
 
 	const { data: breeds, isLoading } = useQuery(

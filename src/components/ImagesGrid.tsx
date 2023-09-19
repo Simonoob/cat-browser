@@ -6,7 +6,7 @@ import CatCard from './CatCard'
 import { css } from '@emotion/react'
 import { useEffect, useState } from 'react'
 const styles = {
-	root: isLoading =>
+	root: (isLoading: boolean) =>
 		css({
 			display: 'grid',
 			gridTemplateColumns: 'repeat(auto-fit, minmax(15rem, 1fr))',
@@ -63,7 +63,7 @@ const ImagesGrid = () => {
 		imagesQuery(selectedBreed).queryFn,
 		{
 			getNextPageParam: (lastPage, pages) => {
-				if (lastPage.data.length < 10) return false
+				if (lastPage.data.length < 4) return false
 				return pages.length
 			},
 		},
@@ -90,7 +90,7 @@ const ImagesGrid = () => {
 			>
 				{data &&
 					data.pages.map(page =>
-						page.data.map(image => (
+						page.data.map((image: { id: string; url: string }) => (
 							<CatCard key={image.id} image={image} />
 						)),
 					)}
