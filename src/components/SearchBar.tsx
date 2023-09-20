@@ -3,7 +3,8 @@ import { useIsFetching, useQuery } from '@tanstack/react-query'
 import { useNavigation, useSubmit } from 'react-router-dom'
 import { Form as BootstrapForm, Spinner } from 'react-bootstrap'
 import { useLoaderData } from 'react-router-dom'
-import { breedsQuery, loader } from '../routes/pages/Index'
+import { loader } from '../routes/pages/Index'
+import { breedsQuery } from '../utils/queries'
 
 const styles = {
 	root: css({

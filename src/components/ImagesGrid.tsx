@@ -1,10 +1,11 @@
-import { imagesQuery, loader } from '../routes/pages/Index'
+import { loader } from '../routes/pages/Index'
 import { useLoaderData, useNavigation } from 'react-router-dom'
 import { useInfiniteQuery, useIsFetching } from '@tanstack/react-query'
 import { Alert, Button, Container, Spinner } from 'react-bootstrap'
 import CatCard from './CatCard'
 import { css } from '@emotion/react'
 import { useEffect, useState } from 'react'
+import { imagesQuery } from '../utils/queries'
 const styles = {
 	root: (isLoading: boolean) =>
 		css({
@@ -47,7 +48,9 @@ const styles = {
 }
 
 const ImagesGrid = () => {
-	const initialData = useLoaderData() as Awaited<ReturnType<typeof loader>>
+	const initialData = useLoaderData() as Awaited<
+		ReturnType<ReturnType<typeof loader>>
+	>
 
 	const selectedBreed = initialData.selectedBreed ?? 'all'
 

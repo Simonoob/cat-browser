@@ -1,16 +1,8 @@
 import { css } from '@emotion/react'
 import { QueryClient, useQuery } from '@tanstack/react-query'
-import axios from 'axios'
 import { Button, Card, Stack } from 'react-bootstrap'
 import { useLoaderData, useNavigate } from 'react-router-dom'
-
-const catDetailsQuery = (breedId: string, catId: string) => ({
-	queryKey: [breedId, catId],
-	queryFn: async () => {
-		return (await axios.get(`https://api.thecatapi.com/v1/images/${catId}`))
-			.data
-	},
-})
+import { catDetailsQuery } from '../../utils/queries'
 
 export const loader =
 	(queryClient: QueryClient) =>
@@ -40,14 +32,24 @@ const styles = {
 		maxWidth: '80rem',
 		padding: '2rem',
 	}),
-	image: css({
-		maxHeight: '50rem',
-		maxWidth: '50rem',
-		objectFit: 'cover',
-		objectPosition: 'center',
-		borderRadius: '0.5rem',
-		margin: '0 auto',
-	}),
+	image: (imageId: string) =>
+		css({
+			maxHeight: '50rem',
+			maxWidth: '50rem',
+			height: '100%',
+			objectFit: 'cover',
+			objectPosition: 'center',
+			borderRadius: '0.5rem',
+			margin: '0 auto',
+			viewTransitionName: `image-${imageId}`,
+			[`&::view-transition-new(${`image-${imageId}`})`]: {
+				animation: 'none',
+				mixBlendMode: 'normal',
+				height: '100%',
+				overflow: 'clip',
+				zIndex: 1,
+			},
+		}),
 	button: css({
 		width: '6rem',
 	}),
@@ -74,7 +76,18 @@ const CatId = () => {
 					<Stack gap={5}>
 						<Button
 							variant="dark"
-							onClick={() => navigate(`/?breed=${breedId}`)}
+							onClick={() =>
+								document.startViewTransition(async () => {
+									navigate(`/?breed=${breedId}`)
+
+									// await until the url changes
+									while (window.location.pathname !== `/`) {
+										await new Promise(resolve =>
+											setTimeout(resolve, 100),
+										)
+									}
+								})
+							}
 							css={styles.button}
 						>
 							Back
@@ -82,7 +95,7 @@ const CatId = () => {
 						<Card.Img
 							variant="top"
 							src={data.url}
-							css={styles.image}
+							css={styles.image(data.id)}
 						/>
 						<Card.Body>
 							<h2>
