@@ -14,7 +14,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 		<QueryClientProvider client={queryClient}>
 			<ThemeProvider theme={theme}>
 				<RouterProvider router={router} />
-				<ReactQueryDevtools position="bottom-right" />
+
+				{/* uncomment the line below to see individual queries in the devtools */}
+				{/* <ReactQueryDevtools position="bottom-right" />  */}
 			</ThemeProvider>
 		</QueryClientProvider>
 	</React.StrictMode>,
