@@ -6,6 +6,7 @@ import CatCard from './CatCard'
 import { css } from '@emotion/react'
 import { useEffect, useState } from 'react'
 import { imagesQuery } from '../utils/queries'
+import { API_ITEMS_PER_PAGE } from '../utils/constants'
 const styles = {
 	root: (isLoading: boolean) =>
 		css({
@@ -66,7 +67,7 @@ const ImagesGrid = () => {
 		imagesQuery(selectedBreed).queryFn,
 		{
 			getNextPageParam: (lastPage, pages) => {
-				if (lastPage.data.length < 4) return false
+				if (lastPage.data.length < API_ITEMS_PER_PAGE) return false
 				return pages.length
 			},
 		},
