@@ -2,6 +2,7 @@ import { css } from '@emotion/react'
 import { Button, Card } from 'react-bootstrap'
 import { loader } from '../routes/pages/Index'
 import { useLoaderData, useNavigate } from 'react-router-dom'
+import navigateWithTransition from '../utils/navigateWithTransition'
 
 const styles = {
 	root: css({
@@ -15,24 +16,6 @@ const styles = {
 			objectFit: 'cover',
 			objectPosition: 'center',
 			viewTransitionName: `image-${imageId}`,
-			[`&::view-transition-old(${`image-${imageId}`})`]: {
-				animation: 'none',
-				mixBlendMode: 'normal',
-				height: '100%',
-				overflow: 'clip',
-				opacity: 1,
-				isolation: 'isolate',
-				zIndex: 0,
-			},
-			[`&::view-transition-new(${`image-${imageId}`})`]: {
-				animation: 'none',
-				mixBlendMode: 'normal',
-				height: '100%',
-				overflow: 'clip',
-				opacity: 1,
-				isolation: 'isolate',
-				zIndex: 1,
-			},
 		}),
 	button: css({
 		width: '100%',
@@ -65,18 +48,9 @@ const CatCard = ({
 					variant="dark"
 					css={styles.button}
 					onClick={() =>
-						document.startViewTransition(async () => {
-							navigate(`/${selectedBreed}/${image.id}`)
-
-							// await until the url changes
-							while (
-								window.location.pathname !==
-								`/${selectedBreed}/${image.id}`
-							) {
-								await new Promise(resolve =>
-									setTimeout(resolve, 100),
-								)
-							}
+						navigateWithTransition({
+							to: `/${selectedBreed}/${image.id}`,
+							navigate,
 						})
 					}
 				>

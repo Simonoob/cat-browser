@@ -3,6 +3,7 @@ import { QueryClient, useQuery } from '@tanstack/react-query'
 import { Button, Card, Stack } from 'react-bootstrap'
 import { useLoaderData, useNavigate } from 'react-router-dom'
 import { catDetailsQuery } from '../../utils/queries'
+import navigateWithTransition from '../../utils/navigateWithTransition'
 
 export const loader =
 	(queryClient: QueryClient) =>
@@ -42,13 +43,6 @@ const styles = {
 			borderRadius: '0.5rem',
 			margin: '0 auto',
 			viewTransitionName: `image-${imageId}`,
-			[`&::view-transition-new(${`image-${imageId}`})`]: {
-				animation: 'none',
-				mixBlendMode: 'normal',
-				height: '100%',
-				overflow: 'clip',
-				zIndex: 1,
-			},
 		}),
 	button: css({
 		width: '6rem',
@@ -77,15 +71,9 @@ const CatId = () => {
 						<Button
 							variant="dark"
 							onClick={() =>
-								document.startViewTransition(async () => {
-									navigate(`/?breed=${breedId}`)
-
-									// await until the url changes
-									while (window.location.pathname !== `/`) {
-										await new Promise(resolve =>
-											setTimeout(resolve, 100),
-										)
-									}
+								navigateWithTransition({
+									to: `/?breed=${breedId}`,
+									navigate,
 								})
 							}
 							css={styles.button}
